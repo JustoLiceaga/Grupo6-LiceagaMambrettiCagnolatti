@@ -35,35 +35,39 @@ export class Register extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text> Esto es el registro</Text>
-                <Pressable onPress={() => this.props.navigation.navigate('Login')}>
-                    <Text>Ir a Login</Text>
-                </Pressable>
+                <Text style={styles.title}> Registro</Text>
+
+                <Text style={styles.text}>Email</Text>             
 
                 <TextInput style={styles.field}
                     keyboardType='email-address'
-                    placeholder='email'
+                    placeholder='Ingrese su email'
                     onChangeText={text => this.setState({ email: text })}
                     value={this.state.email} />
 
-                <TextInput style={styles.field}
-                    keyboardType='default'
-                    placeholder='UserName'
-                    onChangeText={text => this.setState({ UserName: text })}
-                    value={this.state.UserName} />
+                <Text style={styles.text}>Nombre de usuario</Text>
+
 
                 <TextInput style={styles.field}
                     keyboardType='default'
-                    placeholder='password'
+                    placeholder='Ingrese su UserName'
+                    onChangeText={text => this.setState({ UserName: text })}
+                    value={this.state.UserName} />
+
+                <Text style={styles.text}>Contraseña</Text>
+
+                <TextInput style={styles.field}
+                    keyboardType='default'
+                    placeholder='Ingrese su contraseña'
                     secureTextEntry={true}
                     onChangeText={text => this.setState({ password: text })}
                     value={this.state.password} />
 
-                <Pressable onPress={() => this.onSubmit()}>
-                    <Text> Registrarse </Text>
+                <Pressable style={styles.registro} onPress={() => this.onSubmit()}>
+                    <Text style={styles.text}> Registrarse </Text>
                 </Pressable>
-                <Pressable onPress={() => this.props.navigation.navigate('Login')}>
-                    <Text> Ya tengo cuenta </Text>
+                <Pressable style={styles.registro} onPress={() => this.props.navigation.navigate('Login')}>
+                    <Text style={styles.text}> Ya tengo cuenta </Text>
                 </Pressable>
             </View>
         )
@@ -71,9 +75,12 @@ export class Register extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 10,
-        marginTop: 20,
+     container: {
+        flex: 1,
+        backgroundColor: '#f8f9fa',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20,
     },
     field: {
         height: 20,
@@ -97,6 +104,20 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
+    },
+    text: {
+        fontSize: 20,
+    },
+    title:{
+        fontSize: 30,
+        paddingBottom: 50
+    },
+    registro:{
+        paddingBottom: 10,
+        paddingTop: 10,
+        fontSize: 25,
+
+
     },
 });
 

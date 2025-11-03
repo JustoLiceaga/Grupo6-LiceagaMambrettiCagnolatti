@@ -1,4 +1,4 @@
-import { Text, View, Pressable, StyleSheet } from 'react-native'
+import { Text, View, Pressable, StyleSheet, ImageBackground } from 'react-native'
 import React, { Component } from 'react'
 import { auth } from "../fireBase/config";
 import { TextInput } from 'react-native-web'
@@ -29,7 +29,7 @@ export class Login extends Component {
                 this.setState({ loggedIn: true, error: '' });
             })
             .then(() => {
-                this.props.navigation.navigate('HomeMenu')
+                this.props.navigation.navigate('HomeMenu');
             })
             .catch(error => {
                 if (this.state.email !== auth.currentUser.email || this.state.password !== auth.currentUser.password) {
@@ -42,25 +42,23 @@ export class Login extends Component {
 
     render() {
         return (
-            <View>
-                <Text>Formulario de Login</Text>
-                <Pressable onPress={() => this.props.navigation.navigate('Register')}>
-                    <Text>Ir al Registro</Text>
+            <View style={styles.container} >
+                
+                <Text style={styles.title} >Formulario de Login</Text>
 
-                </Pressable>
-                <Pressable onPress={() => this.props.navigation.navigate('HomeMenu')}>
-                    <Text>Entrar a la App</Text>
-                </Pressable>
+                <Text style={styles.text}>Email</Text>
 
                 <TextInput style={styles.field}
                     keyboardType='email-address'
-                    placeholder='email'
+                    placeholder='Ingrese su Email'
                     onChangeText={text => this.setState({ email: text })}
                     value={this.state.email} />
 
+                <Text style={styles.text}>Contraseña</Text>
+
                 <TextInput style={styles.field}
                     keyboardType='default'
-                    placeholder='password'
+                    placeholder='Ingrese su contraseña'
                     secureTextEntry={true}
                     onChangeText={text => this.setState({ password: text })}
                     value={this.state.password} />
@@ -69,12 +67,13 @@ export class Login extends Component {
                     <Text style={styles.error}>{this.state.error}</Text>
                 )}
 
-                <Pressable onPress={() => this.onSubmit()}>
-                    <Text> Logearse </Text>
+                <Pressable style={styles.login} onPress={() => this.onSubmit()}>
+                    <Text style={styles.text}> Logearse </Text>
                 </Pressable>
-                <Pressable onPress={() => this.props.navigation.navigate('Register')}>
-                    <Text> No tengo cuenta </Text>
+                <Pressable style={styles.login} onPress={() => this.props.navigation.navigate('Register')}>
+                    <Text style={styles.text}> No tengo cuenta </Text>
                 </Pressable>
+                
             </View>
         )
     }
@@ -82,8 +81,11 @@ export class Login extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 10,
-        marginTop: 20,
+        flex: 1,
+        backgroundColor: '#f8f9fa',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20,
     },
     field: {
         height: 20,
@@ -108,6 +110,25 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fff',
     },
+    text: {
+        fontSize: 20,
+    },
+    fondo: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        
+    },
+    login:{
+        paddingBottom: 10,
+        paddingTop: 10,
+        fontSize: 25,
+    },
+    title:{
+        fontSize: 30,
+        paddingBottom: 50
+    },
+
 });
 
 
