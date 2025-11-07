@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import Entypo from '@expo/vector-icons/Entypo';
-import Usuarios from '../screens/Usuarios';
+import NuevoPosteo from '../screens/NuevoPosteo';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,16 +20,16 @@ const HomeMenu = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="Crear Posteo"
+        component={NuevoPosteo}
         options={{
           headerShown: false,
           tabBarIcon: () => <Entypo name="user" size={24} color="black" />,
         }}
       />
-      <Tab.Screen
-        name="Users"
-        component={Usuarios}
+            <Tab.Screen
+        name="Profile"
+        component={Profile}
         options={{
           headerShown: false,
           tabBarIcon: () => <Entypo name="user" size={24} color="black" />,
