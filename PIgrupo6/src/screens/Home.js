@@ -2,14 +2,14 @@ import { Text, View, Pressable, StyleSheet, FlatList } from 'react-native'
 import React, { Component } from 'react'
 import { TextInput } from 'react-native-web'
 import { auth, db } from "../fireBase/config";
-
+import firebase from 'firebase';
 
 export class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
       posteos: [],
-      loading: true
+      loading: true,
     }
   }
 
@@ -35,8 +35,28 @@ export class Home extends Component {
     );
   }
 
-  onSubmit = () => {
-    this.props.navigation.navigate('Comentario');
+  onSubmit(idPost, likes) {
+    const userEmail = auth.currentUser.email;
+    
+
+    if (likes.includes(userEmail)) {
+      db.collection('posts')
+        .doc(idPost)
+        .update({
+          likes: firebase.firestore.FieldValue.arrayRemove(userEmail)
+        })
+        .then()
+        .catch(error => console.log('Error al quitar like:', error));
+    } 
+    else {
+      db.collection('posts')
+        .doc(idPost)
+        .update({
+          likes: firebase.firestore.FieldValue.arrayUnion(userEmail)
+        })
+        .then()
+        .catch(error => console.log('Error al agregar like:', error));
+    }
   }
 
   render() {
@@ -54,12 +74,19 @@ export class Home extends Component {
               <View>
                 <Text >Publicado por: {item.data.owner}</Text>
                 <Text style={styles.login} >{item.data.texto}</Text>
-                <Pressable style={styles.login} onPress={this.onSubmit}>
+                <Pressable style={styles.login} onPress={() => this.props.navigation.navigate('Comentar')}>
                   <Text> Comentar </Text>
                 </Pressable>
-                <Pressable style={styles.login} onPress={this.onSubmit}>
-                  <Text> Dar like </Text>
-                </Pressable>
+                <Text style={styles.likesCount}>
+                    likes: {item.data.likes.length}
+                  </Text>
+                  <Pressable 
+                    style={styles.button} 
+                    onPress={() => this.onSubmit(item.id, item.data.likes)}>
+                    <Text style={styles.buttonText}>
+                      {item.data.likes.includes(auth.currentUser.email) ? "Quitar like" : "Dar like"}
+                    </Text>
+                  </Pressable>
               </View>
             )}
           />)}
