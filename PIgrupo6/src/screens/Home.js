@@ -74,8 +74,8 @@ export class Home extends Component {
               <View>
                 <Text >Publicado por: {item.data.owner}</Text>
                 <Text style={styles.login} >{item.data.texto}</Text>
-                <Pressable style={styles.login} onPress={() => this.props.navigation.navigate('Comentar')}>
-                  <Text> Comentar </Text>
+                <Pressable style={styles.login} onPress={() => this.props.navigation.navigate('Comentar', {id: item.id})}>
+                  <Text style={styles.login}> Comentar </Text>
                 </Pressable>
                 <Text style={styles.likesCount}>
                     likes: {item.data.likes.length}
