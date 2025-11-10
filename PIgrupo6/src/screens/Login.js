@@ -25,6 +25,7 @@ export class Login extends Component {
     }
 
     onSubmit() {
+        
         if (!this.state.email.includes('@')) {
             this.setState({ error: 'Email mal formateado' });
             return;
@@ -40,13 +41,9 @@ export class Login extends Component {
             .then(() => {
                 this.props.navigation.navigate('HomeMenu');
             })
-            .catch(error => {
-                if (this.state.email !== auth.currentUser.email || this.state.password !== auth.currentUser.password) {
-                    this.setState({ error: 'Credenciales incorrectas' });
-                    return;
-                }
-                console.log(error);
-            })
+            .catch(error =>
+                console.log(error)
+            )
     }
 
     render() {
