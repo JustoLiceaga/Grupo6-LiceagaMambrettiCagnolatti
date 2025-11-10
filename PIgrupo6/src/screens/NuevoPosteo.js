@@ -9,23 +9,32 @@ export class NuevoPosteo extends Component {
         super(props)
         this.state = {
             texto: '',
+            error: "",
         }
     }
 
     onSubmit() {
-        db.collection('posts').add({
-            owner: auth.currentUser.email,
-            texto: this.state.texto,
-            createdAt: Date.now(),
-            likes: [],
-            comments: []
-        })
-            .then(() => {
-                console.log('Posteo publicado!');
-                this.setState({ texto: '' });
-                this.props.navigation.navigate('Home');
+        if (this.state.texto.length < 2) {
+            this.setState({
+                error: "Publicacion muy corta"
+            });
+            return
+        } else {
+            db.collection('posts').add({
+                owner: auth.currentUser.email,
+                texto: this.state.texto,
+                createdAt: Date.now(),
+                likes: [],
+                comments: []
             })
-            .catch(error => console.log(error))
+                .then(() => {
+                    console.log('Posteo publicado!');
+                    this.setState({ texto: '' });
+                    this.props.navigation.navigate('Home');
+                })
+                .catch(error => console.log(error))
+        }
+
 
     }
 
@@ -46,6 +55,9 @@ export class NuevoPosteo extends Component {
                 <Pressable style={styles.login} onPress={() => this.onSubmit()}>
                     <Text style={styles.text}> Publicar </Text>
                 </Pressable>
+                {this.state.error !== '' && (
+                    <Text style={styles.error}>{this.state.error}</Text>
+                )}
             </View>
         )
     }
