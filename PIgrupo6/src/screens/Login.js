@@ -11,8 +11,17 @@ export class Login extends Component {
             email: '',
             password: '',
             error: '',
-            loggedIn: false
+            loggedIn: false,
+            recordarme: false,
         }
+    }
+
+    componentDidMount() {
+        auth.onAuthStateChanged(user => {
+            user ? this.props.navigation.navigate('HomeMenu') : null
+        });
+        
+        
     }
 
     onSubmit() {
@@ -43,7 +52,7 @@ export class Login extends Component {
     render() {
         return (
             <View style={styles.container} >
-                
+
                 <Text style={styles.title} >Formulario de Login</Text>
 
                 <Text style={styles.text}>Email</Text>
@@ -66,14 +75,21 @@ export class Login extends Component {
                 {this.state.error !== '' && (
                     <Text style={styles.error}>{this.state.error}</Text>
                 )}
-
+                <Pressable
+                    onPress={() => this.setState({ recordarme: !this.state.recordarme })}
+                    style={styles.rememberContainer}
+                >
+                    <Text style={styles.text}>
+                        {this.state.recordarme ? "✅ Recordarme" : "⬜ Recordarme"}
+                    </Text>
+                </Pressable>
                 <Pressable style={styles.login} onPress={() => this.onSubmit()}>
                     <Text style={styles.text}> Logearse </Text>
                 </Pressable>
                 <Pressable style={styles.login} onPress={() => this.props.navigation.navigate('Register')}>
                     <Text style={styles.text}> No tengo cuenta </Text>
                 </Pressable>
-                
+
             </View>
         )
     }
@@ -117,16 +133,19 @@ export const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: '100%',
-        
+
     },
-    login:{
+    login: {
         paddingBottom: 10,
         paddingTop: 10,
         fontSize: 25,
     },
-    title:{
+    title: {
         fontSize: 30,
         paddingBottom: 50
+    },
+    rememberContainer: {
+        marginVertical: 10,
     },
 
 });
